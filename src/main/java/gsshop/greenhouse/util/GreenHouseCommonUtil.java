@@ -7,10 +7,11 @@ import org.apache.commons.lang3.StringUtils;
 
 public class GreenHouseCommonUtil {
 	
-	public static String substrb(String target, int pStart, int len) throws UnsupportedEncodingException {
+	public static String substrb(String target, int pStart, int len) {
 		
 		// 리턴문자열
 		String result = null;
+		String encodingType = "UTF-8";
 		
 		// 대상문자열이 null이거나 빈문자열일 경우와 자를 길이(len)이 0보다 작은수가 주어지면 null를 리턴한다. 
 		if (StringUtils.isEmpty(target) || len <= 0) {
@@ -29,7 +30,11 @@ public class GreenHouseCommonUtil {
 		// source의 길이, 즉 바이트배열의 길이
 		int sourceLen;
 		
-		source = target.getBytes("UTF-8");
+		try {
+			source = target.getBytes(encodingType);
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e.getCause());
+		}
 		sourceLen = source.length;
 		
 		// 시작위치의 절대값이 source의 길이보다 크다면 null를 리턴
@@ -62,7 +67,11 @@ public class GreenHouseCommonUtil {
 		}
 		
 		// 잘라낸 byte를 문자열로 변환
-		result = new String(subtractSource);
+		try {
+			result = new String(subtractSource, encodingType);
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e.getCause());
+		}
 		return result;
 	}
 	
