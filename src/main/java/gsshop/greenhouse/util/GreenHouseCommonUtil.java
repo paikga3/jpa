@@ -60,10 +60,9 @@ public class GreenHouseCommonUtil {
 		subtractSource = new byte[ePos - sPos + 1];
 		
 		// 잘라내기작업
-		int index = 0;
-		for (int i = (sPos - 1); i < ePos; i++) {
+		for (int i = (sPos - 1), j = 0; i < ePos; i++, j++) {
 			// 먼저저장되어진 값을 적용 후 index를 증가
-			subtractSource[index++] = source[i];
+			subtractSource[j] = source[i];
 		}
 		
 		// 잘라낸 byte를 문자열로 변환

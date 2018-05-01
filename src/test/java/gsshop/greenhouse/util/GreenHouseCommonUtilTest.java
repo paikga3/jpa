@@ -17,7 +17,7 @@ public class GreenHouseCommonUtilTest {
 		
 		String target = "홍길동이랑싸워보자";
 		
-		String result = GreenHouseCommonUtil.substrb(target, -15, 10);
+		String result = GreenHouseCommonUtil.substrb(target, 1, 6);
 		
 		System.out.println("결과문자열 : " + result);
 		System.out.println("문자열의 길이 : " + result.length());
