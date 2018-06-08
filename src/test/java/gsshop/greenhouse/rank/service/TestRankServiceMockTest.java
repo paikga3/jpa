@@ -1,21 +1,19 @@
 package gsshop.greenhouse.rank.service;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.transaction.Transactional;
 
-import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -120,9 +118,9 @@ public class TestRankServiceMockTest {
 		String date2 = getSysdate(LocalDateTime.parse(date1, formatter));
 		String date3 = getSysdate(LocalDateTime.parse(date2, formatter));
 		
-		System.out.println(date1);
-		System.out.println(date2);
-		System.out.println(date3);
+//		System.out.println(date1);
+//		System.out.println(date2);
+//		System.out.println(date3);
 		
 	}
 	
@@ -140,6 +138,40 @@ public class TestRankServiceMockTest {
 		} else {
 			return time1;
 		}
+		
+	}
+	
+	@Test
+	public void assertLong() {
+		
+		class Num {
+			Long num;
+			
+			public void setNum(Long num) {
+				this.num = num;
+			}
+			
+			public Long getNum() {
+				return this.num;
+			}
+		}
+		Num num = new Num();
+		num.setNum(0L);
+		
+		Map<String,String> pMap = new HashMap<>();
+		pMap.put("qty", "0");
+		
+		if (num.getNum() > Long.valueOf("12")) {
+			System.out.println("1");
+		} else if (num.getNum() == Long.valueOf(pMap.get("qty"))) {
+			System.out.println("2");
+		} else {
+			System.out.println("3");
+		}
+		
+		
+		
+		
 		
 	}
 	

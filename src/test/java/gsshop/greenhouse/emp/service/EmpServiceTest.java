@@ -28,7 +28,7 @@ public class EmpServiceTest {
 		//Assert.assertEquals(7902L, list.get(0).getEmpno().longValue() );
 	}
 	
-	@Test
+//	@Test
 	public void saveEmp() {
 		empService.saveEmp();
 	}

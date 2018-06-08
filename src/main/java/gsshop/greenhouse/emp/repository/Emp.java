@@ -15,9 +15,11 @@ import javax.persistence.TemporalType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 @Setter
 @Getter
 @EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "EMP")
 public class Emp {

@@ -1,6 +1,11 @@
 package gsshop.greenhouse.util;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -74,4 +79,62 @@ public class GreenHouseCommonUtil {
 		return result;
 	}
 	
+	// IN에 들어올 수 있는 파라미터의 갯수가 1000개로 제한되어져 있어
+	// 분할쿼리하기 위한 유틸리티
+	// RepositorySequentialQuery 에 사용자가 쿼리하려는 레파지토리 호출로직을 구현하여 넘기면
+	// paramSet의 갯수가 1000개 이하일 경우는 이 파라미터를 그대로 전달하여 쿼리하고
+	// 1000개이상일 경우는 1000개씩 분할하여 추상화된 레파지토리 호출로직을 반복 호출하여 누적된 결과를 리턴한다.
+	public static<T,S> List<T> getSequentialQueryList(RepositorySequentialQuery<T,S> repositorySequentialQuery, Set<S> paramSet) {
+		
+		// 누적결과리스트, 처음엔 null을 할당
+		List<T> resultList = null;
+		
+		// IN조건에 들어오는 파라미터의 총크기(1000개 이상일 가능성이 있는 조건파라미터)
+		int size = paramSet.size();
+		
+		// 파라미터의 크기가 1000개를 초과한다면
+		if (size > 1000) {
+			// 카운터변수
+			int i = 1;
+			
+			// 이때서야 누적결과리스트의 객체를 생성한다. 메모리잡아먹으니깐 미리 만들어놓지 않음ㅋ
+			resultList = new ArrayList<>();
+			
+			// 실제쿼리에 던질 파라미터셋(제한된 크기 1000개), 이후 템프셋이라 명함
+			Set<S> tmpParamSet = new HashSet<>();
+			
+			// 이터레이터생성
+			Iterator<S> paramIter = paramSet.iterator();
+			while (paramIter.hasNext()) {
+				S param = paramIter.next();
+				
+				// 템프셋에 파라미터 추가
+				tmpParamSet.add(param);
+				
+				// 카운터가 앞으로 남아있는 파라미터의 SIZE와 같다면 while 다돌았으니깐 템프셋의 크기가 궂이 1000개가 되지 않더라도 남아있는 파라미터로 쿼리
+				if (i == size) {
+					resultList.addAll(repositorySequentialQuery.getResultList(tmpParamSet));
+				}
+				
+				// 템프셋의 크기가 1000개 라면 쿼리하고
+				// 쿼리한 결과 결과리스트에 담고
+				// 쿼리했으니깐 템프셋은 초기화하고
+				// SIZE는 남아있는 파라미터의 개수를 나타내기 위해 업데이트하고(즉 1000개를 뺌, i는 이상태에서 1000이므로 i를 뺌)
+				// i는 0으로 초기화, 그래야 다음에 i++되어 1부터 시작
+				if (i == 1000) {
+					resultList.addAll(repositorySequentialQuery.getResultList(tmpParamSet));
+					tmpParamSet = new HashSet<>();
+					size = size - i;
+					i = 0;
+				}
+				i++;
+				
+			}
+		// 파라미터의 크기가 1000개이면 그냥 바로 넘겨 쿼리하고 리턴
+		} else {
+			resultList = repositorySequentialQuery.getResultList(paramSet);
+		}
+		
+		return resultList;
+	}
 }
