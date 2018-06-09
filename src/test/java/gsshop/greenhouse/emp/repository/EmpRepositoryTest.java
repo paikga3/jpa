@@ -69,7 +69,7 @@ public class EmpRepositoryTest {
 	public void findByEmpnoIn() {
 		String ename = "BLAKE";
 		Set<Long> paramSet2 = new HashSet<>();
-		for (long i=0; i < 30000; i++) {
+		for (long i=0; i < 8001; i++) {
 			paramSet2.add(i);
 		}
 //		paramSet.add(7698L);

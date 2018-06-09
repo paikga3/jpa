@@ -111,11 +111,6 @@ public class GreenHouseCommonUtil {
 				// 템프셋에 파라미터 추가
 				tmpParamSet.add(param);
 				
-				// 카운터가 앞으로 남아있는 파라미터의 SIZE와 같다면 while 다돌았으니깐 템프셋의 크기가 궂이 1000개가 되지 않더라도 남아있는 파라미터로 쿼리
-				if (i == size) {
-					resultList.addAll(repositorySequentialQuery.getResultList(tmpParamSet));
-				}
-				
 				// 템프셋의 크기가 1000개 라면 쿼리하고
 				// 쿼리한 결과 결과리스트에 담고
 				// 쿼리했으니깐 템프셋은 초기화하고
@@ -124,12 +119,14 @@ public class GreenHouseCommonUtil {
 				if (i == 1000) {
 					resultList.addAll(repositorySequentialQuery.getResultList(tmpParamSet));
 					tmpParamSet = new HashSet<>();
-					size = size - i;
 					i = 0;
 				}
 				i++;
-				
 			}
+			if (!tmpParamSet.isEmpty()) {
+				resultList.addAll(repositorySequentialQuery.getResultList(tmpParamSet));
+			}
+			
 		// 파라미터의 크기가 1000개이면 그냥 바로 넘겨 쿼리하고 리턴
 		} else {
 			resultList = repositorySequentialQuery.getResultList(paramSet);
