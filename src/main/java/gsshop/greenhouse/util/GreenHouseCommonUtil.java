@@ -114,7 +114,6 @@ public class GreenHouseCommonUtil {
 				// 템프셋의 크기가 1000개 라면 쿼리하고
 				// 쿼리한 결과 결과리스트에 담고
 				// 쿼리했으니깐 템프셋은 초기화하고
-				// SIZE는 남아있는 파라미터의 개수를 나타내기 위해 업데이트하고(즉 1000개를 뺌, i는 이상태에서 1000이므로 i를 뺌)
 				// i는 0으로 초기화, 그래야 다음에 i++되어 1부터 시작
 				if (i == 1000) {
 					resultList.addAll(repositorySequentialQuery.getResultList(tmpParamSet));
