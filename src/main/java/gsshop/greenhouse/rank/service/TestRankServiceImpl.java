@@ -7,17 +7,21 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import gsshop.greenhouse.rank.RankInfoInlineVO;
 import gsshop.greenhouse.rank.RankInfoVO;
 import gsshop.greenhouse.rank.repository.TestRank;
 import gsshop.greenhouse.rank.repository.TestRankRepository;
 
+@Transactional(readOnly=true)
 @Service
 public class TestRankServiceImpl implements TestRankService {
 	
 	@Autowired
 	private TestRankRepository testRankRepository;
 	
+	@Transactional(readOnly=false)
 	@Override
 	public List<RankInfoVO> getRankInfo() {
 		

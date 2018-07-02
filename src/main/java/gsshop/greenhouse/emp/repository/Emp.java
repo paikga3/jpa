@@ -2,20 +2,36 @@ package gsshop.greenhouse.emp.repository;
 
 import java.util.Date;
 
-import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
+import gsshop.greenhouse.emp.SalaryInfoByJobVO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+@SqlResultSetMapping(
+	name = "SalaryInfoByJobMapping",
+	classes = @ConstructorResult(
+			targetClass = SalaryInfoByJobVO.class,
+			columns = {
+				@ColumnResult(name="JOB", type=String.class),
+				@ColumnResult(name="SAL", type=Long.class),
+				@ColumnResult(name="COMM", type=Long.class)
+			}
+			
+	)
+)
 @Setter
 @Getter
 @EqualsAndHashCode

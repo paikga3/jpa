@@ -1,6 +1,5 @@
 package gsshop.greenhouse.emp.repository;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import gsshop.greenhouse.emp.SalaryInfoByJobVO;
 import gsshop.greenhouse.util.GreenHouseCommonUtil;
 import gsshop.greenhouse.util.RepositorySequentialQuery;
 
@@ -65,7 +65,7 @@ public class EmpRepositoryTest {
 		System.out.println(list);
 	}
 	
-	@Test
+//	@Test
 	public void findByEmpnoIn() {
 		String ename = "BLAKE";
 		Set<Long> paramSet2 = new HashSet<>();
@@ -81,6 +81,13 @@ public class EmpRepositoryTest {
 			
 		}, paramSet2);
 		
+		System.out.println(list);
+	}
+	
+	@Test
+	public void findBySalaryInfoByJob() {
+		Long deptNo = 30L;
+		List<SalaryInfoByJobVO> list = empRepository.findBySalaryInfoByJob(deptNo);
 		System.out.println(list);
 	}
 }
